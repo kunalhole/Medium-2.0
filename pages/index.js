@@ -5,7 +5,6 @@ import Header from "../components/Header"
 import Posts from "../components/Posts"
 import { sanityClient, urlFor } from "../sanity"
 export default function Home({ posts }) {
-  console.log(posts)
   return (
     <div className="max-w-7xl mx-auto">
       <Head>

@@ -2,7 +2,7 @@ import Header from "../../components/Header"
 import { sanityClient, urlFor } from "../../sanity"
 import PortableText from "react-portable-text"
 
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useState } from "react"
 
 const Post = ({ post }) => {
@@ -14,17 +14,15 @@ const Post = ({ post }) => {
     formState: { errors },
   } = useForm()
 
-  const onSubmit = (data) => {
-    fetch("/api/createComment", {
+  const OnSubmit = async (data) => {
+    await fetch("/api/createComment", {
       method: "POST",
       body: JSON.stringify(data),
     })
       .then(() => {
-        console.log(data)
         setSubmitted(true)
       })
       .catch((err) => {
-        console.log(err)
         setSubmitted(false)
       })
   }
@@ -51,7 +49,7 @@ const Post = ({ post }) => {
           <p className="font-extralight text-sm">
             Blog Post by{" "}
             <span className="text-green-600">{post.author.name}</span> -
-            Published at {new Date(post._createAt).toLocaleString()}
+            Published at {new Date(post._createdAt).toLocaleString()}
           </p>
         </div>
 
@@ -92,7 +90,7 @@ const Post = ({ post }) => {
         </div>
       ) : (
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(OnSubmit)}
           className="flex flex-col p-5 max-w-2xl mx-auto mb-10"
         >
           <h3 className="text-sm text-yellow-500">Enjoyed this article?</h3>
@@ -100,7 +98,7 @@ const Post = ({ post }) => {
           <hr className="py-3 mt-2" />
 
           <input
-            {...register("id")}
+            {...register("_id")}
             type="hidden"
             name="_id"
             value={post._id}
